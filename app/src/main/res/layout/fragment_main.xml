@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="200dp"
-    android:paddingLeft="200dp"
-    android:paddingRight="200dp"
-    android:paddingTop="200dp"
     android:background="@color/colorAccent"
     tools:context="ch.bbcag.app.bkellj.badiapp.MainActivity$PlaceholderFragment">
 
@@ -14,7 +10,6 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:text="teststetstst"/>
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

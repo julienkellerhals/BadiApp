@@ -123,13 +123,13 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            ///TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
                 rootView = home(rootView);
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
                 rootView = two(rootView);
             }
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             //Log.wtf("stf", textView.getText().toString());
             return rootView;
         }

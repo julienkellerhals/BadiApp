@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
 
+    private String TAG = this.getLocalClassName();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,36 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+    }
+
+    private void inittButtons() {
+        Button left = (Button) findViewById(R.id.btnLeft);
+        Button middle = (Button) findViewById(R.id.btnMiddle);
+        Button right = (Button) findViewById(R.id.btnRight);
+
+        final int currentPage = mViewPager.getCurrentItem();
+
+        left.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.wtf(TAG, "left");
+                mViewPager.setCurrentItem(1);
+            }
+        });
+
+
+        middle.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.wtf(TAG, "middle");
+                mViewPager.setCurrentItem(2);
+            }
+        });
+
+        right.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.wtf(TAG, "right");
+                mViewPager.setCurrentItem(3);
+            }
+        });
     }
 
     private void addBadisToList() {

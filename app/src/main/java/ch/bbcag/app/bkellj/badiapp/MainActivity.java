@@ -16,11 +16,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-<<<<<<< HEAD
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,8 +30,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
-=======
->>>>>>> 0cf8167f7d91f9e0b65526d3aad672a3aa5bda5e
 
 public class MainActivity extends AppCompatActivity {
     private ListView mDrawerList;

@@ -1,6 +1,5 @@
 package ch.bbcag.app.bkellj.badiapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,21 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.security.AccessControlContext;
-import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
     private ListView mDrawerList;
@@ -88,36 +79,27 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(0);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        ViewPager.OnPageChangeListener listener =  new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             public void onPageSelected(int position) {
                 // Check if this is the page you want.
                 if (position == 0) {
-                    Intent intent = new Intent(mViewPager.getContext(), BadiDetailsActivity.class);
-                    intent.putExtra("badi", "40");
-                    intent.putExtra("name", "SICK");
-                    //startActivity(intent);
-
-                    mSectionsPagerAdapter.startIntent(intent);
-
-                    //BadiDetailsActivity details = new BadiDetailsActivity("71", "SICK", mSectionsPagerAdapter.getItem(position));
-
-
-                    //PlaceholderFragment home = (PlaceholderFragment) mSectionsPagerAdapter.getItem(position);
+                    BadiDetails badiDetails = new BadiDetails("40", "NAME", mViewPager);
+                    badiDetails.show();
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(mViewPager.getContext(), WeatherActivity.class);
-                    intent.putExtra("city", "Bern");
-
-                    mSectionsPagerAdapter.startIntent(intent);
+                    Weather weather = new Weather("Bern", mViewPager);
+                    weather.show();
                 }
                 //home.startActivity(intent);
                 //PlaceholderFragment home = (PlaceholderFragment) mSectionsPagerAdapter.getItem(position);
                 //home.becameVisible(mViewPager.getContext(), position);
             }
-        });
+        };
+        listener.onPageSelected(0); // manually set first page
+        mViewPager.addOnPageChangeListener(listener);
 
         initButtons();
     }
@@ -330,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public View weather(View view, ViewGroup container, LayoutInflater inflater) {
+                view = inflater.inflate(R.layout.activity_weather, container, false);
                 view.setBackgroundResource(R.color.colorAccent);
 
                 return view;

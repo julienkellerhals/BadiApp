@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final ArrayList<ArrayList<String>> allBadis = BadiData.allBadis(getApplicationContext());
-            List<int> openPos = new List<int>(new int[] {});
+            List<Integer> myCoords = new ArrayList<Integer>();
 
             for (int x = position + 1; x < kantonListe.size(); x++) {
                 mAdapter.remove(kantonListe.get(x));

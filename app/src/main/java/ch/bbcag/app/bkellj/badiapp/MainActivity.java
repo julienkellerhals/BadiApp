@@ -24,6 +24,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDrawerList = (ListView)findViewById(R.id.navList);
+        mDrawerList = (ListView) findViewById(R.id.navList);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         //ImageView img = (ImageView) findViewById(R.id.badilogo);
@@ -118,9 +124,6 @@ public class MainActivity extends AppCompatActivity {
     private void addBadisToList() {
         //ListView badis = (ListView) findViewById(R.id.badiliste);
         badiliste = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        badiliste.add(AARBERG);
-        badiliste.add(ADELBODEN);
-        badiliste.add(BERN);
         //badis.setAdapter(badiliste);
 
         //Definition einer anonymen Klicklistener Klasse
@@ -153,20 +156,62 @@ public class MainActivity extends AppCompatActivity {
         //badis.setOnItemClickListener(mListClickedHandler);
     }
 
+    private List<String> kantonListe = Arrays.asList(new String[]{"BE", "GR", "ZH", "TG", "AG", "BS", "BL", "SZ", "GL", "SG", "SO", "AR", "NW", "FR", "TI", "LU", "ZG", "OW", "VS"});
+
     private void addDrawerItems() {
-        String[] osArray = { "Android", "iOS", "Windows", "OS X", "Linux" };
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+        /* WORKING LIST
+        List<String> initalList = new ArrayList<>();
+        initalList.add("Wähle Kanton");
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, initalList);*/
+        //mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, badiliste);
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<>(kantonListe));
         mDrawerList.setAdapter(mAdapter);
+        mDrawerList.setOnItemClickListener(drawerItemClickListener);
     }
 
     //Drawer Click
-    /**
-    mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+    private AdapterView.OnItemClickListener drawerItemClickListener = new AdapterView.OnItemClickListener() {
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(MainActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+            final ArrayList<ArrayList<String>> allBadis = BadiData.allBadis(getApplicationContext());
+            List<int> openPos = new List<int>(new int[] {});
+
+            for (int x = position + 1; x < kantonListe.size(); x++) {
+                mAdapter.remove(kantonListe.get(x));
+            }
+            for (ArrayList<String> b : allBadis) {
+                if (kantonListe.get(position).equals(b.get(6))) {
+                    String badi = (b.get(5) + " - " + b.get(8));
+                    mAdapter.add(badi);
+                }
+            }
+            for (int x = position + 1; x < kantonListe.size(); x++) {
+                mAdapter.add(kantonListe.get(x));
+            }
+
+
         }
-    }); */
+    };
+
+    /*              Working list
+    private AdapterView.OnItemClickListener drawerItemClickListener = new AdapterView.OnItemClickListener() {
+
+        @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (position == 0 && mAdapter.getCount() == 1) {
+                // kontone hinzufügen
+                for (String kanton : kantonListe) {
+                    mAdapter.add(kanton);
+                }
+            } else if (position == 0 && mAdapter.getCount() == 1 + kantonListe.length) {
+                for (String kanton : kantonListe) {
+                    mAdapter.remove(kanton);
+                }
+            }
+        }
+    }; */
+
 
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -196,14 +241,15 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-*/
+
+    /*
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            return true;
+        }
+    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

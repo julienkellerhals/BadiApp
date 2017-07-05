@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
+        mViewPager.setCurrentItem(0);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -96,11 +96,22 @@ public class MainActivity extends AppCompatActivity {
                 // Check if this is the page you want.
                 if (position == 0) {
                     Intent intent = new Intent(mViewPager.getContext(), BadiDetailsActivity.class);
-                    intent.putExtra("badi", "71");
+                    intent.putExtra("badi", "40");
                     intent.putExtra("name", "SICK");
-                    startActivity(intent);
+                    //startActivity(intent);
+
+                    mSectionsPagerAdapter.startIntent(intent);
+
+                    //BadiDetailsActivity details = new BadiDetailsActivity("71", "SICK", mSectionsPagerAdapter.getItem(position));
+
 
                     //PlaceholderFragment home = (PlaceholderFragment) mSectionsPagerAdapter.getItem(position);
+                }
+                if (position == 1) {
+                    Intent intent = new Intent(mViewPager.getContext(), WeatherActivity.class);
+                    intent.putExtra("city", "Bern");
+
+                    mSectionsPagerAdapter.startIntent(intent);
                 }
                 //home.startActivity(intent);
                 //PlaceholderFragment home = (PlaceholderFragment) mSectionsPagerAdapter.getItem(position);
@@ -311,8 +322,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public View home(View view, ViewGroup container, LayoutInflater inflater) {
-            view.setBackgroundResource(R.color.cool);
             view = inflater.inflate(R.layout.activity_badi_details, container, false);
+            view.setBackgroundResource(R.color.cool);
             //Button mid = (Button) getActivity().findViewById(R.id.btnMiddle);
             //if (mid != null) mid.setText("HOME");
             return view;
@@ -389,6 +400,10 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     return null;
             }
+        }
+
+        public void startIntent(Intent intent) {
+            startActivity(intent);
         }
     }
 }

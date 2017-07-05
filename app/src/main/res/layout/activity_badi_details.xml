@@ -12,15 +12,21 @@
     tools:context="ch.bbcag.app.bkellj.badiapp.BadiDetailsActivity">
 
     <TextView
+        android:id="@+id/badiTemperatur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="45sp"
+        android:textAlignment="center"
+        />
+
+    <TextView
         android:id="@+id/badiinfos"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Badi 1"
-        android:textSize="20dp" />
+        android:layout_marginTop="50dp"/>
 
     <ListView
         android:id="@+id/badidetails"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="11.05" />
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

@@ -199,9 +199,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final ArrayList<ArrayList<String>> allBadis = BadiData.allBadis(getApplicationContext());
-            List<Integer> myCoords = new ArrayList<Integer>();
+            List<Integer> openPos = new ArrayList<Integer>();
 
             for (int x = position + 1; x < kantonListe.size(); x++) {
+                openPos.add(postion);
                 mAdapter.remove(kantonListe.get(x));
             }
             for (ArrayList<String> b : allBadis) {

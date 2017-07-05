@@ -14,10 +14,10 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".tempActivity" />
         <activity android:name=".BadiDetailsActivity" />
         <activity
@@ -29,6 +29,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+=======
+>>>>>>> 91b8336a7369ca6341a0de3c0f3d89e9d484425b
     </application>
 
 </manifest>

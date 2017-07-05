@@ -1,5 +1,6 @@
 package ch.bbcag.app.bkellj.badiapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
@@ -12,16 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+<<<<<<< HEAD
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,6 +30,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
+=======
+>>>>>>> 0cf8167f7d91f9e0b65526d3aad672a3aa5bda5e
 
 public class MainActivity extends AppCompatActivity {
     private ListView mDrawerList;
@@ -89,19 +90,41 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(0);
+        ViewPager.OnPageChangeListener listener =  new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            public void onPageSelected(int position) {
+                // Check if this is the page you want.
+                if (position == 0) {
+                    BadiDetails badiDetails = new BadiDetails("40", "NAME", mViewPager);
+                    badiDetails.show();
+                }
+                if (position == 1) {
+                    Weather weather = new Weather("Bern", mViewPager);
+                    weather.show();
+                }
+                //home.startActivity(intent);
+                //PlaceholderFragment home = (PlaceholderFragment) mSectionsPagerAdapter.getItem(position);
+                //home.becameVisible(mViewPager.getContext(), position);
+            }
+        };
+        listener.onPageSelected(0); // manually set first page
+        mViewPager.addOnPageChangeListener(listener);
+
+        initButtons();
     }
 
-    private void inittButtons() {
+    public void initButtons() {
         Button left = (Button) findViewById(R.id.btnLeft);
         Button middle = (Button) findViewById(R.id.btnMiddle);
         Button right = (Button) findViewById(R.id.btnRight);
 
-        final int currentPage = mViewPager.getCurrentItem();
-
         left.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.wtf(TAG, "left");
-                mViewPager.setCurrentItem(1);
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
             }
         });
 
@@ -109,14 +132,14 @@ public class MainActivity extends AppCompatActivity {
         middle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.wtf(TAG, "middle");
-                mViewPager.setCurrentItem(2);
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem());
             }
         });
 
         right.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.wtf(TAG, "right");
-                mViewPager.setCurrentItem(3);
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
             }
         });
     }
@@ -301,23 +324,63 @@ public class MainActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
-                rootView = home(rootView);
-            } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
-                rootView = two(rootView);
+
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 1:
+                    rootView = home(rootView, container, inflater);
+                    break;
+                case 2:
+                    rootView = weather(rootView, container, inflater);
+                    break;
+                case 3:
+                    rootView = sun(rootView, container, inflater);
+                    break;
+                case 4:
+                    rootView = settings(rootView, container, inflater);
+                    break;
             }
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            //Log.wtf("stf", textView.getText().toString());
+            //weather(rootView, container, inflater);
+
             return rootView;
         }
 
-        public View home(View view) {
+        public void becameVisible(Context context, int position) {
+            //is called when the page becomes visible
+            if (position == 1){
+                /*Intent intent = new Intent(context, BadiDetailsActivity.class); //Fragment doesn't actually exist yet, so this doesn't work
+                intent.putExtra("badi", "71");
+                intent.putExtra("name", "COOL");
+                startActivity(intent);*/
+            }
+        }
+
+        public View home(View view, ViewGroup container, LayoutInflater inflater) {
+            view = inflater.inflate(R.layout.activity_badi_details, container, false);
             view.setBackgroundResource(R.color.cool);
+            //Button mid = (Button) getActivity().findViewById(R.id.btnMiddle);
+            //if (mid != null) mid.setText("HOME");
             return view;
         }
 
-        public View two(View view) {
-            view.setBackgroundResource(R.color.colorPrimaryDark);
+        public View weather(View view, ViewGroup container, LayoutInflater inflater) {
+                view = inflater.inflate(R.layout.activity_weather, container, false);
+                view.setBackgroundResource(R.color.colorAccent);
+
+                return view;
+        }
+
+        public View sun(View view, ViewGroup container, LayoutInflater inflater) {
+            view.setBackgroundResource(R.color.colorPrimary);
+            //Button mid = (Button) getActivity().findViewById(R.id.btnMiddle);
+            //if (mid != null) mid.setText("SUN");
+            return view;
+        }
+
+        public View settings(View view, ViewGroup container, LayoutInflater inflater) {
+            view.setBackgroundResource(R.color.cool);
+            //Button mid = (Button) getActivity().findViewById(R.id.btnMiddle);
+            //if (mid != null) mid.setText("SETTINGS");
             return view;
         }
     }
@@ -327,6 +390,8 @@ public class MainActivity extends AppCompatActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        private int pagesCount = 4;
+
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -342,21 +407,38 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show total pages.
+            return pagesCount;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
+
+            if (position <= pagesCount) return "SECTION "+position+1+"";
+            else return null;
+        }
+
+        public String getText(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "HOME";
+                    //break;
                 case 1:
-                    return "SECTION 2";
+                    return "WEATHER";
+                    //break;
                 case 2:
-                    return "SECTION 3";
+                    return "SUN";
+                    //break;
+                case 3:
+                    return "SETTINGS";
+                    //break;
+                default:
+                    return null;
             }
-            return null;
+        }
+
+        public void startIntent(Intent intent) {
+            startActivity(intent);
         }
     }
 }

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,11 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
 
-<<<<<<< HEAD
-    private static String TAG = MainActivity.class.getName();
-=======
     private String TAG = MainActivity.class.getName();
->>>>>>> 91b8336a7369ca6341a0de3c0f3d89e9d484425b
 
 
     @Override

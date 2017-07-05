@@ -8,12 +8,9 @@
 
     <string name="title_activity_nav">nav</string>
 
-<<<<<<< HEAD
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-=======
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
->>>>>>> 91b8336a7369ca6341a0de3c0f3d89e9d484425b
 </resources>

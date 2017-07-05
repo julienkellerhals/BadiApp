@@ -12,20 +12,8 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".tempActivity" />
-        <activity android:name=".BadiDetailsActivity" />
-        <activity
-            android:name=".nav"
-            android:label="@string/title_activity_nav"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.bbcag.app.bkellj.badiapp.MainActivity" />
         </activity>
     </application>
 

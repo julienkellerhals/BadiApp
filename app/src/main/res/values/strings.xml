@@ -7,7 +7,6 @@
     <string name="right"><![CDATA[>]]></string>
     <string name="title_activity_nav">nav</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
->>>>>>> ae6199f06977ddd67c253d11efbc6b741f07727a
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

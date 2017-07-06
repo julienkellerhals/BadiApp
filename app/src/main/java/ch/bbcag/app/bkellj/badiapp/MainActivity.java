@@ -197,9 +197,6 @@ public class MainActivity extends AppCompatActivity {
         generateDrawerItems(null);
     }
 
-            for (int x = position + 1; x < kantonListe.size(); x++) {
-                openPos.add(position);
-                mAdapter.remove(kantonListe.get(x));
     /**
      *
      * @param kantonPosition nullable; null if no state is selected, otherwise the selected state

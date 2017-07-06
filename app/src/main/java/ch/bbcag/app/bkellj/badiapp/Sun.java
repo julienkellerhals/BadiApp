@@ -28,7 +28,7 @@ class Sun extends FakeActivity{
         TextView sunriseText = (TextView) viewPager.findViewById(R.id.sunriseText);
         TextView sunsetText  = (TextView) viewPager.findViewById(R.id.sunsetText );
 
-        sunriseText.setText(sunrise.);
+        sunriseText.setText(sunrise.toString());
         sunsetText.setText(sunset.toString());
     }
 }

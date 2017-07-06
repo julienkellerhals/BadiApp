@@ -1,10 +1,12 @@
 package ch.bbcag.app.bkellj.badiapp;
 
+import android.support.annotation.IntDef;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,7 +16,7 @@ import java.util.Date;
 class Sun extends FakeActivity{
     private ViewPager viewPager;
     private DataHolder dataHolder;
-    private Date sunset, sunrise;
+    private String sunset, sunrise;
 
     public Sun(ViewPager viewPager, DataHolder dataHolder) {
         this.viewPager = viewPager;
@@ -22,13 +24,13 @@ class Sun extends FakeActivity{
     }
 
     public void show() {
-        this.sunrise = (Date) dataHolder.get("sunriseDate");
-        this.sunset  = (Date) dataHolder.get("sunsetDate" );
+        this.sunrise = (String) dataHolder.get("sunrise");
+        this.sunset  = (String) dataHolder.get("sunset" );
 
         TextView sunriseText = (TextView) viewPager.findViewById(R.id.sunriseText);
         TextView sunsetText  = (TextView) viewPager.findViewById(R.id.sunsetText );
 
-        sunriseText.setText(sunrise.toString());
-        sunsetText.setText(sunset.toString());
+        sunriseText.setText(sunrise);
+        sunsetText.setText(sunset);
     }
 }

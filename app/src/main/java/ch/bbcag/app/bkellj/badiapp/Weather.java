@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -115,12 +116,16 @@ class Weather extends FakeActivity {
                 int sunrise = jsonObject.getJSONObject("sys").getInt("sunrise");
                 int sunset = jsonObject.getJSONObject("sys").getInt("sunset");
 
-                //TODO: save this some way
-                Date sunriseDate = new Date(sunrise);
-                Date sunsetDate = new Date(sunset);
+                Date sunriseDate = new Date((long)sunrise*1000);
+                Date sunsetDate  = new Date((long)sunset*1000 );
 
-                dataHolder.save("sunriseDate", sunriseDate);
-                dataHolder.save("sunsetDate" , sunsetDate );
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+
+                String sunriseFormated = format.format(sunriseDate);
+                String sunsetFormated  = format.format(sunsetDate );
+
+                dataHolder.save("sunrise", sunriseFormated);
+                dataHolder.save("sunset" , sunsetFormated );
 
                 resultList.add(description);
                 resultList.add(String.valueOf(temp_min));

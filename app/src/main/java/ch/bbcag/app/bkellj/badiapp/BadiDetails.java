@@ -1,7 +1,9 @@
 package ch.bbcag.app.bkellj.badiapp;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -13,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,6 +60,13 @@ public class BadiDetails extends FakeActivity {
             protected String doInBackground(String[] badi) {
                 //In der variable msg soll die Antwort der Seite wiewarm.ch gespeichert werden.
                 String msg = "";
+
+                if (!isInternetAvailable()) {
+                    //no internet connection, return null and handel in postExecute
+                    Log.i(TAG, "No internet :(");
+                    return null;
+                }
+
                 try {
                     URL url = new URL(badi[0]);
                     //Hier bauen wir die Verbindung auf:
@@ -76,6 +86,12 @@ public class BadiDetails extends FakeActivity {
             }
 
             public void onPostExecute(String result) {
+                if (result == null) {
+                    mDialog.dismiss();
+                    noInternetInfo(viewPager);
+                    return;
+                }
+
                 //In result werden zurückgelieferten Daten der Methode doInBackground (return msg;) übergeben.
                 // Hier ist also unser Resultat der Seite z.B. http://www.wiewarm.ch/api/v1/bad.json/55
                 // In einem Browser IE, Chrome usw. sieht man schön das Resulat als JSON formatiert.
@@ -126,4 +142,6 @@ public class BadiDetails extends FakeActivity {
         }.execute(url);
 
     }
+
+
 }

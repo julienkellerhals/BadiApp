@@ -2,6 +2,7 @@ package ch.bbcag.app.bkellj.badiapp;
 
 import android.support.annotation.IntDef;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -14,6 +15,7 @@ import java.util.Date;
  */
 
 class Sun extends FakeActivity{
+    private String TAG = Sun.class.getName();
     private ViewPager viewPager;
     private DataHolder dataHolder;
     private String sunset, sunrise;
@@ -27,10 +29,15 @@ class Sun extends FakeActivity{
         this.sunrise = (String) dataHolder.get("sunrise");
         this.sunset  = (String) dataHolder.get("sunset" );
 
-        TextView sunriseText = (TextView) viewPager.findViewById(R.id.sunriseText);
-        TextView sunsetText  = (TextView) viewPager.findViewById(R.id.sunsetText );
+        try {
+            TextView sunriseText = (TextView) viewPager.findViewById(R.id.sunriseText);
+            TextView sunsetText = (TextView) viewPager.findViewById(R.id.sunsetText);
 
-        sunriseText.setText(sunrise);
-        sunsetText.setText(sunset);
+            sunriseText.setText(sunrise);
+            sunsetText.setText(sunset);
+        } catch (NullPointerException e) {
+            Log.i(TAG, "No sunset");
+        }
+
     }
 }

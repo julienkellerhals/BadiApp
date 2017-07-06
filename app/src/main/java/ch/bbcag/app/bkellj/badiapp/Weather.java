@@ -59,6 +59,13 @@ class Weather extends FakeActivity {
             protected String doInBackground(String[] weather) {
                 //In der variable msg soll die Antwort gespeichert werden.
                 String msg = "";
+
+                if (!isInternetAvailable()) {
+                    //no internet connection, return null and handel in postExecute
+                    Log.i(TAG, "No internet :(");
+                    return null;
+                }
+
                 try {
                     URL url = new URL(weather[0]);
                     //Hier bauen wir die Verbindung auf:
@@ -78,13 +85,19 @@ class Weather extends FakeActivity {
             }
 
             public void onPostExecute(String result) {
+                if (result == null) {
+                    mDialog.dismiss();
+                    noInternetInfo(viewPager);
+                    return;
+                }
+
                 //In result werden zurückgelieferten Daten der Methode doInBackground (return msg;) übergeben.
                 // Hier ist also unser Resultat der Seite z.B. http://www.wiewarm.ch/api/v1/bad.json/55
                 // In einem Browser IE, Chrome usw. sieht man schön das Resulat als JSON formatiert.
                 // JSON Daten können wir aber nicht direkt ausgeben, also müssen wir sie umformatieren.
                 try {
 
-                    if (result == null || Objects.equals(result, "")) {
+                    if (Objects.equals(result, "")) {
                         //TODO: nur eine notlösung, wetter auf device "cachen"
                         Scanner read = new Scanner(viewPager.getContext().getResources().openRawResource(R.raw.w));
                         result = read.nextLine();
@@ -122,7 +135,7 @@ class Weather extends FakeActivity {
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
                 String sunriseFormated = format.format(sunriseDate);
-                String sunsetFormated  = format.format(sunsetDate );
+                String sunsetFormated = format.format(sunsetDate);
 
                 dataHolder.save("sunrise", sunriseFormated);
                 dataHolder.save("sunset" , sunsetFormated );

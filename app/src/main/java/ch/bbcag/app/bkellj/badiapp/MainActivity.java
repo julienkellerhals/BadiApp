@@ -377,31 +377,24 @@ public class MainActivity extends AppCompatActivity {
 
         public View home(View view, ViewGroup container, LayoutInflater inflater) {
             view = inflater.inflate(R.layout.activity_badi_details, container, false);
-            view.setBackgroundResource(R.color.cool);
-            //Button mid = (Button) getActivity().findViewById(R.id.btnMiddle);
-            //if (mid != null) mid.setText("HOME");
+
             return view;
         }
 
         public View weather(View view, ViewGroup container, LayoutInflater inflater) {
             view = inflater.inflate(R.layout.activity_weather, container, false);
-            view.setBackgroundResource(R.color.colorAccent);
 
             return view;
         }
 
         public View sun(View view, ViewGroup container, LayoutInflater inflater) {
             view = inflater.inflate(R.layout.activity_sun, container, false);
-            view.setBackgroundResource(R.color.colorPrimary);
-            //Button mid = (Button) getActivity().findViewById(R.id.btnMiddle);
-            //if (mid != null) mid.setText("SUN");
+
             return view;
         }
 
         public View settings(View view, ViewGroup container, LayoutInflater inflater) {
-            view.setBackgroundResource(R.color.cool);
-            //Button mid = (Button) getActivity().findViewById(R.id.btnMiddle);
-            //if (mid != null) mid.setText("SETTINGS");
+
             return view;
         }
     }

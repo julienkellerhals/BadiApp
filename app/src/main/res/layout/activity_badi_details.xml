@@ -4,11 +4,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
     android:weightSum="1"
+    android:background="@color/colorSc4"
+    style="@style/ListView"
     tools:context="ch.bbcag.app.bkellj.badiapp.BadiDetailsActivity">
 
     <TextView

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -31,10 +33,12 @@ class Weather extends FakeActivity {
     private String country = "ch";
     private ProgressDialog mDialog;
     private ViewPager viewPager;
+    private DataHolder dataHolder;
 
-    public Weather(String city, ViewPager viewPager) {
+    public Weather(String city, ViewPager viewPager, DataHolder dataHolder) {
         this.city = city;
         this.viewPager = viewPager;
+        this.dataHolder = dataHolder;
     }
 
     public void show() {
@@ -43,7 +47,7 @@ class Weather extends FakeActivity {
     }
 
     private void getWeather(String url) {
-        Log.wtf(TAG, url);
+        Log.i(TAG, url);
         final ArrayAdapter<String> temps = new ArrayAdapter<String>(viewPager.getContext(), android.R.layout.simple_list_item_1);
 
         new AsyncTask<String, String, String>() {
@@ -52,7 +56,6 @@ class Weather extends FakeActivity {
             //mit den Daten die man in der Metohde doInBackground mit return zurückgegeben hat (hier msg).
             @Override
             protected String doInBackground(String[] weather) {
-                Log.wtf(TAG, "doInBAckground");
                 //In der variable msg soll die Antwort gespeichert werden.
                 String msg = "";
                 try {
@@ -67,7 +70,6 @@ class Weather extends FakeActivity {
                     msg = IOUtils.toString(conn.getInputStream());
                     //und Loggen den Statuscode in der Konsole:
                     Log.i(TAG, Integer.toString(code));
-                    Log.wtf(TAG, "backgroudn2");
                 } catch (Exception e) {
                     Log.v(TAG, e.toString());
                 }
@@ -81,7 +83,8 @@ class Weather extends FakeActivity {
                 // JSON Daten können wir aber nicht direkt ausgeben, also müssen wir sie umformatieren.
                 try {
 
-                    if (result == null || result == "") {
+                    if (result == null || Objects.equals(result, "")) {
+                        //TODO: nur eine notlösung, wetter auf device "cachen"
                         Scanner read = new Scanner(viewPager.getContext().getResources().openRawResource(R.raw.w));
                         result = read.nextLine();
 
@@ -115,6 +118,9 @@ class Weather extends FakeActivity {
                 //TODO: save this some way
                 Date sunriseDate = new Date(sunrise);
                 Date sunsetDate = new Date(sunset);
+
+                dataHolder.save("sunriseDate", sunriseDate);
+                dataHolder.save("sunsetDate" , sunsetDate );
 
                 resultList.add(description);
                 resultList.add(String.valueOf(temp_min));

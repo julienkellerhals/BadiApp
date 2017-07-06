@@ -50,7 +50,6 @@ public class WeatherActivity extends AppCompatActivity {
             //mit den Daten die man in der Metohde doInBackground mit return zurückgegeben hat (hier msg).
             @Override
             protected String doInBackground(String[] weather) {
-                Log.wtf(TAG, "doInBAckground");
                 //In der variable msg soll die Antwort gespeichert werden.
                 String msg = "";
                 try {
@@ -59,6 +58,9 @@ public class WeatherActivity extends AppCompatActivity {
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     //Lesen des Antwortcodes der Webseite:
                     int code = conn.getResponseCode();
+
+                    Log.wtf(TAG, "response code: "+code);
+
                     //Nun können wir den Lade Dialog wieder ausblenden (die Daten sind ja gelesen)
                     mDialog.dismiss();
                     //Hier lesen wir die Nachricht der Webseite

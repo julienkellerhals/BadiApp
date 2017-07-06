@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
-
+    private String badiId, badiName, city;
+    private DataHolder dataHolder;
 
     ArrayAdapter badiliste;
     private final static String AARBERG = "Schwimmbad Aarberg (BE)";
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        dataHolder = new DataHolder();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -80,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
         addBadisToList();
         addDrawerItems();
         setupDrawer();
+
+
+        //TODO:
+        badiId = "40";
+        badiName = "NAME";
+        city = "Bern";
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -96,12 +104,16 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 // Check if this is the page you want.
                 if (position == 0) {
-                    BadiDetails badiDetails = new BadiDetails("40", "NAME", mViewPager);
+                    BadiDetails badiDetails = new BadiDetails(badiId, badiName, mViewPager);
                     badiDetails.show();
                 }
                 if (position == 1) {
-                    Weather weather = new Weather("Bern", mViewPager);
+                    Weather weather = new Weather(city, mViewPager, dataHolder);
                     weather.show();
+                }
+                if (position == 2) {
+                    Sun sun = new Sun(mViewPager, dataHolder);
+                    sun.show();
                 }
                 //home.startActivity(intent);
                 //PlaceholderFragment home = (PlaceholderFragment) mSectionsPagerAdapter.getItem(position);
@@ -121,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
         left.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.wtf(TAG, "left");
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
             }
         });
@@ -129,14 +140,12 @@ public class MainActivity extends AppCompatActivity {
 
         middle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.wtf(TAG, "middle");
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem());
             }
         });
 
         right.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.wtf(TAG, "right");
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
             }
         });
@@ -200,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             List<Integer> openPos = new ArrayList<Integer>();
 
             for (int x = position + 1; x < kantonListe.size(); x++) {
-                openPos.add(postion);
+                openPos.add(position);
                 mAdapter.remove(kantonListe.get(x));
             }
             for (ArrayList<String> b : allBadis) {
@@ -370,6 +379,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public View sun(View view, ViewGroup container, LayoutInflater inflater) {
+            view = inflater.inflate(R.layout.activity_sun, container, false);
             view.setBackgroundResource(R.color.colorPrimary);
             //Button mid = (Button) getActivity().findViewById(R.id.btnMiddle);
             //if (mid != null) mid.setText("SUN");

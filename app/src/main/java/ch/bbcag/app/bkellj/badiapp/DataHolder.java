@@ -17,7 +17,11 @@ public class DataHolder {
     }
 
     Object get(String key) {
-        WeakReference<Object> objectWeakReference = data.get(key);
-        return objectWeakReference.get();
+        try {
+            WeakReference<Object> objectWeakReference = data.get(key);
+            return objectWeakReference.get();
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 }

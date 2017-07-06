@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSc4"
     tools:context="ch.bbcag.app.bkellj.badiapp.WeatherActivity">
 
     <ListView
         android:id="@+id/weather"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>

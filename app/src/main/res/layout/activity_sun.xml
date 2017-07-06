@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:paddingTop="50dp"
     android:paddingBottom="50dp"
+    android:background="@color/colorSc4"
     >
 
     <TextView

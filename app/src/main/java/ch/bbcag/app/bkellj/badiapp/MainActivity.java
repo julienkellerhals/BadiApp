@@ -205,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
         drawerItems.clear();
         if (kantonPosition == null) {
             mAdapter.notifyDataSetChanged();
-            Log.wtf("TAG", "generate");
             // add all states to drawerItems
             for (String k : kantonListe) {
                 drawerItems.add(k);
@@ -214,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
             // add selected state to drawerItems and add badis of this state to drawerItems
             final ArrayList<ArrayList<String>> allBadis = BadiData.allBadis(getApplicationContext());
             mAdapter.add(kantonListe.get(kantonPosition));
+            //mDrawerList.setBackground(R.style.ListViewFirst);      HELP !!
             for (ArrayList<String> b : allBadis) {
                 if (kantonListe.get(kantonPosition).equals(b.get(6))) {
                     String badi = (b.get(5) + " - " + b.get(8));
@@ -242,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     generateDrawerItems(null);
                 } else {
                     // a badi was selected
+                    //mDrawerList.setBackground(R.color.colorSc2);      HELP !!
                     //Intent intent = new Intent(this, )    Continue here !
                 }
             }

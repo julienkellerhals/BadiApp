@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSc4"
+    style="@style/ListView"
     tools:context="ch.bbcag.app.bkellj.badiapp.WeatherActivity">
 
     <ListView

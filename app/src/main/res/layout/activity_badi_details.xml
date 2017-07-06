@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:weightSum="1"
     android:background="@color/colorSc4"
-    style="@style/ListView"
     tools:context="ch.bbcag.app.bkellj.badiapp.BadiDetailsActivity">
 
     <TextView
@@ -26,5 +25,6 @@
     <ListView
         android:id="@+id/badidetails"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        style="@style/ListView"/>
 </RelativeLayout>

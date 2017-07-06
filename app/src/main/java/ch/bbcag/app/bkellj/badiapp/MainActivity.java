@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,12 +80,6 @@ public class MainActivity extends AppCompatActivity {
         initDrawerItems();
         setupDrawer();
 
-
-        //TODO:
-        badiId = "40";
-        badiName = "NAME";
-        city = "Bern";
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -103,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 // Check if this is the page you want.
                 if (position == 0) {
-                    BadiDetails badiDetails = new BadiDetails(badiId, badiName, mViewPager);
+                    BadiDetails badiDetails = new BadiDetails(badiId, badiName, mViewPager, city);
                     badiDetails.show();
                 }
                 if (position == 1) {
@@ -243,10 +238,31 @@ public class MainActivity extends AppCompatActivity {
                     generateDrawerItems(null);
                 } else {
                     // a badi was selected
-                    //Intent intent = new Intent(this, )    Continue here !
-                    badiId = allBadis.get(position).get(0);
+                    /*badiId = allBadis.get(position).get(0);
                     badiName = allBadis.get(position).get(1);
-                    city = allBadis.get(position).get(5);
+                    city = allBadis.get(position).get(5);*/
+
+                    String currentBadi = drawerItems.get(position);
+
+                    ArrayList<String> realBadi = null;
+                    for (int i=1; i < allBadis.size(); i++) {
+                        ArrayList<String> str = allBadis.get(i);
+                        String testName = str.get(5) +" - "+ str.get(8);
+
+
+                        Log.wtf(TAG, testName);
+                        if (currentBadi.equals(testName)) {
+                            //we found the selected badi
+                            realBadi = allBadis.get(i);
+                            break;
+                        }
+                    }
+
+                    if (realBadi != null) {
+                        badiId = realBadi.get(0);
+                        badiName = realBadi.get(1);
+                        city = realBadi.get(5);
+                    }
 
                     //redraw
                     listener.onPageSelected(0);

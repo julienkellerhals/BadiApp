@@ -32,9 +32,14 @@ public class BadiDetails extends FakeActivity {
     private ProgressDialog mDialog;
     private ViewPager viewPager;
 
-    public BadiDetails(String badiId, String name, ViewPager viewPager) {
+    private String city;
+
+    public BadiDetails(String badiId, String name, ViewPager viewPager, String city) {
         this.badiId = badiId;
         this.name = name;
+
+        this.city = city;
+
         this.viewPager = viewPager;
     }
 
@@ -104,6 +109,7 @@ public class BadiDetails extends FakeActivity {
                     ListView badidetails = (ListView) viewPager.findViewById(R.id.badidetails);
                     //und befüllen unser ArrayAdapter den wir am Anfang definiert haben (braucht es zum befüllen eines ListViews)
                     temps.addAll(badiInfos);
+                    temps.add(city);
                     //Mit folgender Zeile fügen wir den befüllten ArrayAdapter der ListView hinzu:
                     badidetails.setAdapter(temps);
                 } catch (JSONException e) {

@@ -238,10 +238,8 @@ public class MainActivity extends AppCompatActivity {
                     generateDrawerItems(null);
                 } else {
                     // a badi was selected
-<<<<<<< HEAD
                     //mDrawerList.setBackground(R.color.colorSc2);      HELP !!
-                    //Intent intent = new Intent(this, )    Continue here !
-=======
+
                     /*badiId = allBadis.get(position).get(0);
                     badiName = allBadis.get(position).get(1);
                     city = allBadis.get(position).get(5);*/
@@ -270,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
 
                     //redraw
                     listener.onPageSelected(0);
->>>>>>> d8c508b8b35978567d87b3e8b614e35e9e8e3888
                 }
             }
         }

@@ -251,8 +251,6 @@ public class MainActivity extends AppCompatActivity {
                         ArrayList<String> str = allBadis.get(i);
                         String testName = str.get(5) +" - "+ str.get(8);
 
-
-                        Log.wtf(TAG, testName);
                         if (currentBadi.equals(testName)) {
                             //we found the selected badi
                             realBadi = allBadis.get(i);

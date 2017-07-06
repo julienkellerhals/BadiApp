@@ -1,11 +1,8 @@
 package ch.bbcag.app.bkellj.badiapp;
 
-import android.app.Activity;
+
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -21,8 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.TimeZone;
 
 /**
  * Created by bmuelb on 05.07.2017.
@@ -72,8 +71,6 @@ class Weather extends FakeActivity {
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     //Lesen des Antwortcodes der Webseite:
                     int code = conn.getResponseCode();
-                    //Nun können wir den Lade Dialog wieder ausblenden (die Daten sind ja gelesen)
-                    mDialog.dismiss();
                     //Hier lesen wir die Nachricht der Webseite
                     msg = IOUtils.toString(conn.getInputStream());
                     //und Loggen den Statuscode in der Konsole:
@@ -85,8 +82,10 @@ class Weather extends FakeActivity {
             }
 
             public void onPostExecute(String result) {
+                //Nun können wir den Lade Dialog wieder ausblenden (die Daten sind ja gelesen)
+                mDialog.dismiss();
+
                 if (result == null) {
-                    mDialog.dismiss();
                     noInternetInfo(viewPager);
                     return;
                 }
@@ -132,7 +131,8 @@ class Weather extends FakeActivity {
                 Date sunriseDate = new Date((long)sunrise*1000);
                 Date sunsetDate  = new Date((long)sunset*1000 );
 
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                format.setTimeZone(TimeZone.getDefault());
 
                 String sunriseFormated = format.format(sunriseDate);
                 String sunsetFormated = format.format(sunsetDate);

@@ -9,8 +9,8 @@ import org.junit.Test;
  */
 
 public class WeatherTest {
-    private ViewPager viewPager = new ViewPager();
-    private Weather weather = new Weather("Bern", viewPager);
+    //private ViewPager viewPager = new ViewPager();
+    //private Weather weather = new Weather("Bern", viewPager);
 
     @Test
     public void JSONpositive() {

@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private String mActivityTitle;
     private String badiId, badiName, city;
     private DataHolder dataHolder;
+    private ViewPager.OnPageChangeListener listener;
 
     ArrayAdapter badiliste;
     private final static String AARBERG = "Schwimmbad Aarberg (BE)";
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(0);
-        ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
+        listener = new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
             }
 
@@ -243,6 +244,12 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // a badi was selected
                     //Intent intent = new Intent(this, )    Continue here !
+                    badiId = allBadis.get(position).get(0);
+                    badiName = allBadis.get(position).get(1);
+                    city = allBadis.get(position).get(5);
+
+                    //redraw
+                    listener.onPageSelected(0);
                 }
             }
         }

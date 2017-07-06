@@ -21,15 +21,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class MainActivity extends AppCompatActivity {
     private ListView mDrawerList;
@@ -78,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         //ImageView img = (ImageView) findViewById(R.id.badilogo);
         //img.setImageResource(R.drawable.badi);
         addBadisToList();
-        addDrawerItems();
+        initDrawerItems();
         setupDrawer();
 
         // Create the adapter that will return a fragment for each of the three
@@ -89,9 +84,12 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(0);
-        ViewPager.OnPageChangeListener listener =  new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+        ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             public void onPageSelected(int position) {
                 // Check if this is the page you want.
@@ -177,17 +175,43 @@ public class MainActivity extends AppCompatActivity {
         //badis.setOnItemClickListener(mListClickedHandler);
     }
 
+    private List<String> drawerItems = new ArrayList<String>();
     private List<String> kantonListe = Arrays.asList(new String[]{"BE", "GR", "ZH", "TG", "AG", "BS", "BL", "SZ", "GL", "SG", "SO", "AR", "NW", "FR", "TI", "LU", "ZG", "OW", "VS"});
+    private boolean displayStates;
 
-    private void addDrawerItems() {
-        /* WORKING LIST
-        List<String> initalList = new ArrayList<>();
-        initalList.add("Wähle Kanton");
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, initalList);*/
-        //mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, badiliste);
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<>(kantonListe));
+    private void initDrawerItems() {
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawerItems);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.setOnItemClickListener(drawerItemClickListener);
+
+        displayStates = true;
+        generateDrawerItems(null);
+    }
+
+    /**
+     *
+     * @param kantonPosition nullable; null if no state is selected, otherwise the selected state
+     */
+    private void generateDrawerItems(Integer kantonPosition) {
+        drawerItems.clear();
+        if (kantonPosition == null) {
+            mAdapter.notifyDataSetChanged();
+            Log.wtf("TAG", "generate");
+            // add all states to drawerItems
+            for (String k : kantonListe) {
+                drawerItems.add(k);
+            }
+        } else {
+            // add selected state to drawerItems and add badis of this state to drawerItems
+            final ArrayList<ArrayList<String>> allBadis = BadiData.allBadis(getApplicationContext());
+            mAdapter.add(kantonListe.get(kantonPosition));
+            for (ArrayList<String> b : allBadis) {
+                if (kantonListe.get(kantonPosition).equals(b.get(6))) {
+                    String badi = (b.get(5) + " - " + b.get(8));
+                    mAdapter.add(badi);
+                }
+            }
+        }
     }
 
     //Drawer Click
@@ -197,42 +221,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final ArrayList<ArrayList<String>> allBadis = BadiData.allBadis(getApplicationContext());
-            List<Integer> openPos = new ArrayList<Integer>();
 
-            for (int x = position + 1; x < kantonListe.size(); x++) {
-                openPos.add(postion);
-                mAdapter.remove(kantonListe.get(x));
-            }
-            for (ArrayList<String> b : allBadis) {
-                if (kantonListe.get(position).equals(b.get(6))) {
-                    String badi = (b.get(5) + " - " + b.get(8));
-                    mAdapter.add(badi);
+            if (displayStates) {
+                // a state was selected
+                displayStates = false;
+                generateDrawerItems(position);
+            } else {
+                if (position == 0) {
+                    // user pressed on state
+                    displayStates = true;
+                    generateDrawerItems(null);
+                } else {
+                    // a badi was selected
+                    //Intent intent = new Intent(this, )    Continue here !
                 }
             }
-            for (int x = position + 1; x < kantonListe.size(); x++) {
-                mAdapter.add(kantonListe.get(x));
-            }
-
-
         }
     };
-
-    /*              Working list
-    private AdapterView.OnItemClickListener drawerItemClickListener = new AdapterView.OnItemClickListener() {
-
-        @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position == 0 && mAdapter.getCount() == 1) {
-                // kontone hinzufügen
-                for (String kanton : kantonListe) {
-                    mAdapter.add(kanton);
-                }
-            } else if (position == 0 && mAdapter.getCount() == 1 + kantonListe.length) {
-                for (String kanton : kantonListe) {
-                    mAdapter.remove(kanton);
-                }
-            }
-        }
-    }; */
 
 
     private void setupDrawer() {
@@ -346,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void becameVisible(Context context, int position) {
             //is called when the page becomes visible
-            if (position == 1){
+            if (position == 1) {
                 /*Intent intent = new Intent(context, BadiDetailsActivity.class); //Fragment doesn't actually exist yet, so this doesn't work
                 intent.putExtra("badi", "71");
                 intent.putExtra("name", "COOL");
@@ -363,10 +368,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public View weather(View view, ViewGroup container, LayoutInflater inflater) {
-                view = inflater.inflate(R.layout.activity_weather, container, false);
-                view.setBackgroundResource(R.color.colorAccent);
+            view = inflater.inflate(R.layout.activity_weather, container, false);
+            view.setBackgroundResource(R.color.colorAccent);
 
-                return view;
+            return view;
         }
 
         public View sun(View view, ViewGroup container, LayoutInflater inflater) {
@@ -413,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
 
-            if (position <= pagesCount) return "SECTION "+position+1+"";
+            if (position <= pagesCount) return "SECTION " + position + 1 + "";
             else return null;
         }
 
@@ -421,16 +426,16 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     return "HOME";
-                    //break;
+                //break;
                 case 1:
                     return "WEATHER";
-                    //break;
+                //break;
                 case 2:
                     return "SUN";
-                    //break;
+                //break;
                 case 3:
                     return "SETTINGS";
-                    //break;
+                //break;
                 default:
                     return null;
             }

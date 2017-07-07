@@ -225,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     generateDrawerItems(null);
                 } else {
                     // a badi was selected
+                    mDrawerLayout.closeDrawers();
                     String currentBadi = drawerItems.get(position-1);
 
                     ArrayList<String> realBadi = null;

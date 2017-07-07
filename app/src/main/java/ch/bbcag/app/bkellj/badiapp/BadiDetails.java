@@ -108,6 +108,12 @@ public class BadiDetails extends FakeActivity {
                     //Jetzt müssen wir nur noch alle Elemente der Liste badidetails hinzufügen.
                     // Dazu holen wir die ListView badidetails vom GUI
                     ListView badidetails = (ListView) viewPager.findViewById(R.id.badidetails);
+
+                    if (badidetails == null) {
+                        //can happen when badi is changed in other view
+                        return;
+                    }
+
                     //und befüllen unser ArrayAdapter den wir am Anfang definiert haben (braucht es zum befüllen eines ListViews)
                     temps.addAll(badiInfos);
                     temps.add(city);

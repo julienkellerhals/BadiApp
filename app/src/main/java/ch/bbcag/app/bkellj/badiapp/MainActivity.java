@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onPageSelected(int position) {
                 // Check if this is the page you want.
-                if (position == 0) {
+                if (position == 0 && badiId != null) {
                     BadiDetails badiDetails = new BadiDetails(badiId, badiName, mViewPager, city);
                     badiDetails.show();
                 }

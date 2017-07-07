@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
@@ -91,6 +92,9 @@ public class BadiDetails extends FakeActivity {
             }
 
             public void onPostExecute(String result) {
+                TextView textView = (TextView) viewPager.findViewById(R.id.badiTemperatur);
+                textView.setText("");
+
                 if (result == null) {
                     mDialog.dismiss();
                     noInternetInfo(viewPager);

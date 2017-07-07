@@ -18,4 +18,5 @@
     <string name="no_inet">Kein Internet</string>
     <string name="no_inet_message">Leider kann keine Verbindung erstellt werden.
  Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
+    <string name="entryMessage"><![CDATA[<----]]></string>
 </resources>

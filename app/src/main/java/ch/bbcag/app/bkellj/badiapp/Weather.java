@@ -43,7 +43,13 @@ class Weather extends FakeActivity {
 
     public void show() {
         mDialog = ProgressDialog.show(viewPager.getContext(), "Lade Wetter", "Bitte warten...");
-        getWeather("http://api.openweathermap.org/data/2.5/weather?q="+city+","+country+"&APPID=f658806f4a85bcda44d18365457f3a6b&units=metric");
+        if (city == null) {
+            //city = null returns values for Khetwādi in India, obviously
+            mDialog.dismiss();
+            return;
+        } else {
+            getWeather("http://api.openweathermap.org/data/2.5/weather?q=" + city + "," + country + "&APPID=f658806f4a85bcda44d18365457f3a6b&units=metric");
+        }
     }
 
     public void getWeather(String url) {
@@ -97,10 +103,7 @@ class Weather extends FakeActivity {
                 try {
 
                     if (Objects.equals(result, "")) {
-                        //TODO: nur eine notlösung, wetter auf device "cachen"
-                        /*Scanner read = new Scanner(viewPager.getContext().getResources().openRawResource(R.raw.w));
-                        result = read.nextLine();*/
-
+                        //TODO: Fehlermeldung für Benutzer
                         Log.wtf(TAG, "result empty");
                     }
                     // Zum Verarbeiten bauen wir die Methode parseBadiTemp und speichern das Resulat in einer Liste.

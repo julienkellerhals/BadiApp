@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:weightSum="1"
     android:background="@color/colorSc4"
-    tools:context="ch.bbcag.app.bkellj.badiapp.BadiDetailsActivity">
+    tools:context="ch.bbcag.app.bkellj.badiapp.BadiDetails">
 
     <TextView
         android:id="@+id/badiTemperatur"

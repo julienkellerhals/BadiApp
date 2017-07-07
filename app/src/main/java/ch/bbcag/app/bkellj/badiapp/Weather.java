@@ -103,7 +103,7 @@ class Weather extends FakeActivity {
                 try {
 
                     if (Objects.equals(result, "")) {
-                        //TODO: Fehlermeldung für Benutzer
+                        //Fehlermeldung für Benutzer
                         Log.wtf(TAG, "result empty");
                     }
                     // Zum Verarbeiten bauen wir die Methode parseBadiTemp und speichern das Resulat in einer Liste.

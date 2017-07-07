@@ -93,7 +93,7 @@ public class BadiDetails extends FakeActivity {
 
             public void onPostExecute(String result) {
                 TextView textView = (TextView) viewPager.findViewById(R.id.badiTemperatur);
-                textView.setText("");
+                if (textView != null) textView.setText("");
 
                 if (result == null) {
                     mDialog.dismiss();

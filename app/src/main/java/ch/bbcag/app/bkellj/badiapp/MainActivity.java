@@ -75,9 +75,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
-        //ImageView img = (ImageView) findViewById(R.id.badilogo);
-        //img.setImageResource(R.drawable.badi);
-        addBadisToList();
         initDrawerItems();
         setupDrawer();
 
@@ -110,9 +107,6 @@ public class MainActivity extends AppCompatActivity {
                     Sun sun = new Sun(mViewPager, dataHolder);
                     sun.show();
                 }
-                //home.startActivity(intent);
-                //PlaceholderFragment home = (PlaceholderFragment) mSectionsPagerAdapter.getItem(position);
-                //home.becameVisible(mViewPager.getContext(), position);
             }
         };
         listener.onPageSelected(0); // manually set first page
@@ -146,25 +140,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void addBadisToList() {
-        //ListView badis = (ListView) findViewById(R.id.badiliste);
-        //badiliste = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        //badis.setAdapter(badiliste);
-
-        //Definition einer anonymen Klicklistener Klasse
-    }
-
     private List<String> drawerItems = new ArrayList<String>();
     private List<String> kantonListe = Arrays.asList(new String[]{"BE", "GR", "ZH", "TG", "AG", "BS", "BL", "SZ", "GL", "SG", "SO", "AR", "NW", "FR", "TI", "LU", "ZG", "OW", "VS"});
     private boolean displayStates;
     private View header;
 
     private void initDrawerItems() {
-        mAdapter = new ArrayAdapter<String>(this, R.layout.state_list, android.R.id.text1,drawerItems);     //not sure
+        mAdapter = new ArrayAdapter<String>(this, R.layout.state_list, android.R.id.text1, drawerItems);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.setOnItemClickListener(drawerItemClickListener);
 
-        header = (View)getLayoutInflater().inflate(R.layout.state_list_item, null);
+        header = (View) getLayoutInflater().inflate(R.layout.state_list_item, null);
 
 
         displayStates = true;
@@ -172,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
      * @param kantonPosition nullable; null if no state is selected, otherwise the selected state
      */
     private void generateDrawerItems(Integer kantonPosition) {
@@ -207,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Drawer Click
-
     private AdapterView.OnItemClickListener drawerItemClickListener = new AdapterView.OnItemClickListener() {
 
         @Override
@@ -226,12 +210,12 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // a badi was selected
                     mDrawerLayout.closeDrawers();
-                    String currentBadi = drawerItems.get(position-1);
+                    String currentBadi = drawerItems.get(position - 1);
 
                     ArrayList<String> realBadi = null;
-                    for (int i=1; i < allBadis.size(); i++) {
+                    for (int i = 1; i < allBadis.size(); i++) {
                         ArrayList<String> str = allBadis.get(i);
-                        String testName = str.get(5) +" - "+ str.get(8);
+                        String testName = str.get(5) + " - " + str.get(8);
 
                         if (currentBadi.equals(testName)) {
                             //we found the selected badi
@@ -283,26 +267,12 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /*
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            return true;
-        }
-    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        /*
-        if (id == R.id.action_settings) {
-            return true;
-        }*/
 
         // Activate the navigation drawer toggle
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -358,19 +328,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            //weather(rootView, container, inflater);
 
             return rootView;
-        }
-
-        public void becameVisible(Context context, int position) {
-            //is called when the page becomes visible
-            if (position == 1) {
-                /*Intent intent = new Intent(context, BadiDetailsActivity.class); //Fragment doesn't actually exist yet, so this doesn't work
-                intent.putExtra("badi", "71");
-                intent.putExtra("name", "COOL");
-                startActivity(intent);*/
-            }
         }
 
         public View home(View view, ViewGroup container, LayoutInflater inflater) {
@@ -428,29 +387,6 @@ public class MainActivity extends AppCompatActivity {
 
             if (position <= pagesCount) return "SECTION " + position + 1 + "";
             else return null;
-        }
-
-        public String getText(int position) {
-            switch (position) {
-                case 0:
-                    return "HOME";
-                //break;
-                case 1:
-                    return "WEATHER";
-                //break;
-                case 2:
-                    return "SUN";
-                //break;
-                case 3:
-                    return "SETTINGS";
-                //break;
-                default:
-                    return null;
-            }
-        }
-
-        public void startIntent(Intent intent) {
-            startActivity(intent);
         }
     }
 }

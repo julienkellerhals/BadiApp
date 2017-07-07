@@ -36,9 +36,6 @@ public class JsonParser {
             String sunriseFormated = format.format(sunriseDate);
             String sunsetFormated = format.format(sunsetDate);
 
-            //dataHolder.save("sunrise", sunriseFormated);
-            //dataHolder.save("sunset" , sunsetFormated );
-
             resultList.add(description);
             resultList.add(String.valueOf(temp_min));
             resultList.add(String.valueOf(temp_max));

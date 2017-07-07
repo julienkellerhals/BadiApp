@@ -5,13 +5,30 @@
     android:paddingBottom="100dp"
     android:background="@color/colorSc4" >
 
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_sunrise"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:id="@+id/sunriseText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="30sp"
+        android:layout_marginTop="50dp"
         />
+
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_sunset"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/sunsetText"
@@ -20,6 +37,7 @@
         android:textAlignment="center"
         android:textSize="30sp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
         />
 
 </RelativeLayout>

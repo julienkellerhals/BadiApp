@@ -29,20 +29,6 @@ public class BadiDetailsActivity extends AppCompatActivity {
     private String name;
     private ProgressDialog mDialog;
 
-    /*public BadiDetailsActivity(String badiId, String name, Fragment fragment) {
-        this.badiId = badiId;
-        this.name = name;
-        setContentView(R.layout.activity_badi_details);
-        TextView text = (TextView) findViewById(R.id.badiinfos);
-        //und setzen setzen als Text den Namen der Badi
-        text.setText(name);
-        //Evtl. ist der Dialog nicht sichtbar, weil die Daten schnell geladen sind
-        // aber hier ziegen wir dem Benutzer den Ladedialog an.
-        mDialog = ProgressDialog.show(this, "Lade Badi-Infos", "Bitte warten...");
-        //Danach wollen wir die Badidaten von der Webseite wiewarm.ch holen und verarbeiten:
-        getBadiTemp("http://www.wiewarm.ch/api/v1/bad.json/" + badiId);
-    }*/
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_badi_details);

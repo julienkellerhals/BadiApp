@@ -103,7 +103,8 @@ public class BadiDetails extends FakeActivity {
                 // JSON Daten können wir aber nicht direkt ausgeben, also müssen wir sie umformatieren.
                 try {
                     // Zum Verarbeiten bauen wir die Methode parseBadiTemp und speichern das Resulat in einer Liste.
-                    List<String> badiInfos = parseBadiTemp(result);
+                    JsonParser jsonParser = new JsonParser();
+                    List<String> badiInfos = jsonParser.parseBadiTemp(result);
                     //Jetzt müssen wir nur noch alle Elemente der Liste badidetails hinzufügen.
                     // Dazu holen wir die ListView badidetails vom GUI
                     ListView badidetails = (ListView) viewPager.findViewById(R.id.badidetails);
@@ -114,34 +115,6 @@ public class BadiDetails extends FakeActivity {
                     badidetails.setAdapter(temps);
                 } catch (JSONException e) {
                     Log.v(TAG, e.toString());
-                }
-            }
-
-            private List<String> parseBadiTemp(String jonString) throws JSONException {
-                {
-                    //Wie bereits erwähnt können JSON Daten nicht direkt einem ListView übergeben werden.
-                    // Darum parsen ("lesen") wir die JSON Daten und bauen eine ArrayListe, die kompatibel
-                    // mit unserem ListView ist.
-                    ArrayList<String> resultList = new ArrayList<String>();
-                    JSONObject jsonObj = new JSONObject(jonString);
-                    JSONObject becken = jsonObj.getJSONObject("becken");
-                    //Das ist unser Pointer um aus den JSON Daten alle Datensätze herauszulesen
-                    Iterator keys = becken.keys();
-                    //Hier holen wir Element für Element aus dem JSON Stream:
-                    // Was wo drin steckt, definiert die API der Datenquelle.
-                    // Für wiewarm.ch muss man es wie folgt machen:
-                    while (keys.hasNext()) {
-                        String key = (String) keys.next();
-                        JSONObject subObj = becken.getJSONObject(key);
-                        //Wenn man die Antwort der Webseite anschaut, steckt im Element "beckenname",
-                        // der Name des Schwimmbeckens
-                        String name = subObj.getString("beckenname");
-                        //und unter temp ist die Temperatur angegeben
-                        String temp = subObj.getString("temp");
-                        //Sobald wir die Daten haben, fügen wir sie unserer Liste hinzu:
-                        resultList.add(name + ": " + temp + " Grad Celsius");
-                    }
-                    return resultList;
                 }
             }
 

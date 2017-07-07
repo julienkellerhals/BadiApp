@@ -46,7 +46,7 @@ class Weather extends FakeActivity {
         getWeather("http://api.openweathermap.org/data/2.5/weather?q="+city+","+country+"&APPID=f658806f4a85bcda44d18365457f3a6b&units=metric");
     }
 
-    private void getWeather(String url) {
+    public void getWeather(String url) {
         Log.i(TAG, url);
         final ArrayAdapter<String> temps = new ArrayAdapter<String>(viewPager.getContext(), android.R.layout.simple_list_item_1);
 
@@ -98,13 +98,22 @@ class Weather extends FakeActivity {
 
                     if (Objects.equals(result, "")) {
                         //TODO: nur eine notlösung, wetter auf device "cachen"
-                        Scanner read = new Scanner(viewPager.getContext().getResources().openRawResource(R.raw.w));
-                        result = read.nextLine();
+                        /*Scanner read = new Scanner(viewPager.getContext().getResources().openRawResource(R.raw.w));
+                        result = read.nextLine();*/
 
                         Log.wtf(TAG, "result empty");
                     }
                     // Zum Verarbeiten bauen wir die Methode parseBadiTemp und speichern das Resulat in einer Liste.
-                    List<String> weatherInfos = parseWeather(result);
+                    JsonParser jsonParser = new JsonParser();
+                    List<String> weatherInfos = jsonParser.parseWeather(result);
+
+                    //read the sunset & sunrise data out of the list and save it
+                    dataHolder.save("sunrise", weatherInfos.get(3));
+                    dataHolder.save("sunset", weatherInfos.get(4));
+
+                    //remove them again because we don't want them displayed here
+                    weatherInfos.remove(dataHolder.get("sunrise"));
+                    weatherInfos.remove(dataHolder.get("sunset"));
 
                     //Jetzt müssen wir nur noch alle Elemente der Liste badidetails hinzufügen.
                     // Dazu holen wir die ListView badidetails vom GUI
@@ -116,35 +125,6 @@ class Weather extends FakeActivity {
                 } catch (JSONException e) {
                     Log.v(TAG, e.toString());
                 }
-            }
-
-            private List<String> parseWeather(String jsonString) throws JSONException {
-                ArrayList<String> resultList = new ArrayList<String>();
-                JSONObject jsonObject = new JSONObject(jsonString);
-                String description = jsonObject.getJSONArray("weather").getJSONObject(0).getString("main");
-                int temp_min = jsonObject.getJSONObject("main").getInt("temp_min");
-                int temp_max = jsonObject.getJSONObject("main").getInt("temp_max");
-
-                int sunrise = jsonObject.getJSONObject("sys").getInt("sunrise");
-                int sunset = jsonObject.getJSONObject("sys").getInt("sunset");
-
-                Date sunriseDate = new Date((long)sunrise*1000);
-                Date sunsetDate  = new Date((long)sunset*1000 );
-
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                format.setTimeZone(TimeZone.getDefault());
-
-                String sunriseFormated = format.format(sunriseDate);
-                String sunsetFormated = format.format(sunsetDate);
-
-                dataHolder.save("sunrise", sunriseFormated);
-                dataHolder.save("sunset" , sunsetFormated );
-
-                resultList.add(description);
-                resultList.add(String.valueOf(temp_min));
-                resultList.add(String.valueOf(temp_max));
-
-                return resultList;
             }
 
 

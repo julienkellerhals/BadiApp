@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AndroidException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -147,47 +148,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void addBadisToList() {
         //ListView badis = (ListView) findViewById(R.id.badiliste);
-        badiliste = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        //badiliste = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         //badis.setAdapter(badiliste);
 
         //Definition einer anonymen Klicklistener Klasse
-        /*
-
-        nichtmehr benutzt
-
-        AdapterView.OnItemClickListener mListClickedHandler = new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), BadiDetailsActivity.class);
-                String selected = parent.getItemAtPosition(position).toString();
-                //Kleine Infobox anzeigen
-                Toast.makeText(MainActivity.this, selected, Toast.LENGTH_SHORT).show();
-                //Intent mit Zusatzinformationen - hier die Badi Nummer
-                switch (selected) {
-                    case AARBERG:
-                        intent.putExtra("badi", "71");
-                        break;
-                    case ADELBODEN:
-                        intent.putExtra("badi", "27");
-                        break;
-                    case BERN:
-                        intent.putExtra("badi", "6");
-                        break;
-                }
-                intent.putExtra("name", selected);
-                startActivity(intent);
-            }
-        }; */
-        //badis.setOnItemClickListener(mListClickedHandler);
     }
 
     private List<String> drawerItems = new ArrayList<String>();
     private List<String> kantonListe = Arrays.asList(new String[]{"BE", "GR", "ZH", "TG", "AG", "BS", "BL", "SZ", "GL", "SG", "SO", "AR", "NW", "FR", "TI", "LU", "ZG", "OW", "VS"});
     private boolean displayStates;
+    private View header;
 
     private void initDrawerItems() {
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawerItems);
+        mAdapter = new ArrayAdapter<String>(this, R.layout.state_list, android.R.id.text1,drawerItems);     //not sure
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.setOnItemClickListener(drawerItemClickListener);
+
+        header = (View)getLayoutInflater().inflate(R.layout.state_list_item, null);
+
 
         displayStates = true;
         generateDrawerItems(null);
@@ -199,17 +177,26 @@ public class MainActivity extends AppCompatActivity {
      */
     private void generateDrawerItems(Integer kantonPosition) {
         drawerItems.clear();
+        mDrawerList.removeHeaderView(header);
         if (kantonPosition == null) {
+            mAdapter = new ArrayAdapter<String>(this, R.layout.state_list, android.R.id.text1, drawerItems);
+            mDrawerList.setAdapter(mAdapter);
+
             mAdapter.notifyDataSetChanged();
             // add all states to drawerItems
             for (String k : kantonListe) {
                 drawerItems.add(k);
             }
         } else {
+            mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawerItems);
+            mDrawerList.setAdapter(mAdapter);
+
             // add selected state to drawerItems and add badis of this state to drawerItems
             final ArrayList<ArrayList<String>> allBadis = BadiData.allBadis(getApplicationContext());
-            mAdapter.add(kantonListe.get(kantonPosition));
-            //mDrawerList.setBackground(R.style.ListViewFirst);      HELP !!
+            mDrawerList.addHeaderView(header);
+            TextView stateTextView = (TextView) header.findViewById(android.R.id.text1);
+            stateTextView.setText(kantonListe.get(kantonPosition));
+
             for (ArrayList<String> b : allBadis) {
                 if (kantonListe.get(kantonPosition).equals(b.get(6))) {
                     String badi = (b.get(5) + " - " + b.get(8));
@@ -238,13 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     generateDrawerItems(null);
                 } else {
                     // a badi was selected
-                    //mDrawerList.setBackground(R.color.colorSc2);      HELP !!
-
-                    /*badiId = allBadis.get(position).get(0);
-                    badiName = allBadis.get(position).get(1);
-                    city = allBadis.get(position).get(5);*/
-
-                    String currentBadi = drawerItems.get(position);
+                    String currentBadi = drawerItems.get(position-1);
 
                     ArrayList<String> realBadi = null;
                     for (int i=1; i < allBadis.size(); i++) {
